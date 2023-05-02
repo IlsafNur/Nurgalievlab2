@@ -72,6 +72,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="4333_Nurgaliev.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="4333_Valiakhmetov.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -80,7 +84,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="MainWindow1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -96,6 +100,9 @@
     <Compile Include="4333_Ibragimov.xaml.cs">
       <DependentUpon>4333_Ibragimov.xaml</DependentUpon>
     </Compile>
+    <Compile Include="4333_Nurgaliev.xaml.cs">
+      <DependentUpon>4333_Nurgaliev.xaml</DependentUpon>
+    </Compile>
     <Compile Include="4333_Sagitova.xaml.cs">
       <DependentUpon>4333_Sagitova.xaml</DependentUpon>
     </Compile>
@@ -106,8 +113,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="MainWindow1.xaml.cs">
+      <DependentUpon>MainWindow1.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -63,5 +63,12 @@ namespace Template_4333
             ibragimov.Show();
             this.Hide();
         }
+
+        private void _4333_Nurgaliev(object sender, RoutedEventArgs e)
+        {
+            _4333_Nurgaliev ilsaf = new _4333_Nurgaliev();
+            ilsaf.Show();
+            this.Hide();
+        }
     }
 }
