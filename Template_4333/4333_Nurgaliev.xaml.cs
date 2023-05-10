@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Text.Json;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
 using Word = Microsoft.Office.Interop.Word;
@@ -133,8 +134,116 @@ namespace Template_4333
 
             }
         }
+        private async void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog()
+            {
+                DefaultExt = "*.json",
+                Filter = "файл Json (Spisok.json)|*.json",
+                Title = "Выберите файл базы данных"
+            };
+            if (!(ofd.ShowDialog() == true))
+                return;
 
-        class Service
+            using (FileStream fs = new FileStream(ofd.FileName, FileMode.OpenOrCreate))
+            {
+                List<Service1> services = await JsonSerializer.DeserializeAsync<List<Service1>>(fs);
+                using (laba2Entities5 usersEntities = new laba2Entities5())
+                {
+                    foreach (var s in services)
+                    {
+                        usersEntities.isrpo3.Add(new isrpo3()
+                        {
+                            IdServices = s.IdServices,
+                            NameServices = s.NameServices,
+                            TypeOfService = s.TypeOfService,
+                            CodeService = s.CodeService,
+                            Cost = s.Cost,
+                        });
+                    }
+                    usersEntities.SaveChanges();
+                }
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            List<isrpo3> service = new List<isrpo3>();
+            using (laba2Entities5 db = new laba2Entities5())
+            {
+                service = db.isrpo3.ToList();
+                var app = new Word.Application();
+                Word.Document document = app.Documents.Add();
+
+                List<isrpo3> category_1;
+                List<isrpo3> category_2;
+                List<isrpo3> category_3;
+
+                using (laba2Entities5 isrpoEntities = new laba2Entities5())
+                {
+                    category_1 = isrpoEntities.isrpo3.Where(x => x.Cost < 350).ToList();
+                    category_2 = isrpoEntities.isrpo3.Where(x => x.Cost > 250 && x.Cost < 800).ToList();
+                    category_3 = isrpoEntities.isrpo3.Where(x => x.Cost > 800).ToList();
+                }
+
+                var allServices = new List<List<isrpo3>>()
+                {
+                    category_1,
+                    category_2,
+                    category_3
+                };
+                int i = 1;
+                foreach (var serv in allServices)
+                {
+                    Word.Paragraph paragraph = document.Paragraphs.Add();
+                    Word.Range range = paragraph.Range;
+                    range.Text = "Категория " + i;
+                    i++;
+                    paragraph.set_Style("Заголовок 1");
+                    range.InsertParagraphAfter();
+
+                    Word.Paragraph tableParagraph = document.Paragraphs.Add();
+                    Word.Range tableRange = tableParagraph.Range;
+                    Word.Table serviceTable = document.Tables.Add(tableRange, serv.Count() + 1, 4);
+                    serviceTable.Borders.InsideLineStyle = serviceTable.Borders.OutsideLineStyle = Word.WdLineStyle.wdLineStyleSingle;
+                    serviceTable.Range.Cells.VerticalAlignment = Word.WdCellVerticalAlignment.wdCellAlignVerticalCenter;
+
+                    Word.Range cellRange;
+                    cellRange = serviceTable.Cell(1, 1).Range;
+                    cellRange.Text = "Id";
+                    cellRange = serviceTable.Cell(1, 2).Range;
+                    cellRange.Text = "Название";
+                    cellRange = serviceTable.Cell(1, 3).Range;
+                    cellRange.Text = "Вид";
+                    cellRange = serviceTable.Cell(1, 4).Range;
+                    cellRange.Text = "Стоимость";
+                    serviceTable.Rows[1].Range.Bold = 1;
+                    serviceTable.Rows[1].Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
+                    int j = 1;
+                    foreach (var servic in serv)
+                    {
+                        cellRange = serviceTable.Cell(j + 1, 1).Range;
+                        cellRange.Text = servic.IdServices.ToString();
+                        cellRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                        cellRange = serviceTable.Cell(j + 1, 2).Range;
+                        cellRange.Text = servic.NameServices;
+                        cellRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                        cellRange = serviceTable.Cell(j + 1, 3).Range;
+                        cellRange.Text = servic.TypeOfService;
+                        cellRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                        cellRange = serviceTable.Cell(j + 1, 4).Range;
+                        cellRange.Text = servic.Cost.ToString();
+                        cellRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                        j++;
+                    }
+                }
+                app.Visible = true;
+            }
+        }
+    }
+
+    class Service
         {
             public int IdServices { get; set; }
             public string NameServices { get; set; }
@@ -153,6 +262,5 @@ namespace Template_4333
 
         }
     }
-}
 
 

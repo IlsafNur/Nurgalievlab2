@@ -8,8 +8,10 @@
         Title="_4333_Nurgaliev" Height="450" Width="800">
     <Grid>
         <Label Content="Нургалиев Ильсаф 4333 18 лет" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="94" Width="576" FontSize="40"/>
-        <Button Content="Импорт данных" HorizontalAlignment="Left" Margin="125,278,0,0" VerticalAlignment="Top" Height="59" Width="140" FontSize="16" Click="Button_Click"/>
-        <Button Content="Экспорт в Excel" HorizontalAlignment="Left" Margin="499,278,0,0" VerticalAlignment="Top" Height="59" Width="140" FontSize="16" Click="Button_Click_1"/>
+        <Button Content="Импорт данных" HorizontalAlignment="Left" Margin="97,278,0,0" VerticalAlignment="Top" Height="59" Width="172" FontSize="16" Click="Button_Click"/>
+        <Button Content="Экспорт в Excel" HorizontalAlignment="Left" Margin="97,354,0,0" VerticalAlignment="Top" Height="59" Width="172" FontSize="16" Click="Button_Click_1"/>
+        <Button Content="Импорт данных JSON" HorizontalAlignment="Left" Margin="524,278,0,0" VerticalAlignment="Top" Height="59" Width="164" FontSize="16" Click="Button_Click_2"/>
+        <Button Content="Экспорт данных JSON" HorizontalAlignment="Left" Margin="524,354,0,0" VerticalAlignment="Top" Height="59" Width="164" FontSize="16" Click="Button_Click_3"/>
 
     </Grid>
 </Window>
